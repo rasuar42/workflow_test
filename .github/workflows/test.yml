@@ -23,11 +23,8 @@ jobs:
       - name: Fetch Pull Request Info
         if: github.event.issue.pull_request
         run: |
-          pull_request_url=$(jq -r '.issue.pull_request.url' "$GITHUB_EVENT_PATH")
-          branch=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$pull_request_url" | jq -r '.head.ref')
+          branch=$(echo "${{ github.event.pull_request.base.ref }}")
           echo "Branch Name: $branch"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       # Runs a single command using the runners shell
       - name: output file
