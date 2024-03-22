@@ -22,6 +22,21 @@ jobs:
         env:
           NUMBER: ${{ github.event.issue.number }}
 
+      - name: Extract branch name from comment
+        id: extract_branch_name
+        run: |
+          # Example logic to extract branch name
+          # Replace this with your own logic based on your comment format
+          comment_body=$(jq -r .comment.body "${GITHUB_EVENT_PATH}")
+          branch_name=$(echo "$comment_body" | grep -o -E 'branch: ([^ ]+)' | sed 's/branch: //')
+          echo "::set-output name=branch_name::$branch_name"
+
+      - name: Do something with branch name
+        if: steps.extract_branch_name.outputs.branch_name
+        run: |
+          branch_name=${{ steps.extract_branch_name.outputs.branch_name }}
+          echo "Branch Name: $branch_name"
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
