@@ -22,7 +22,7 @@ jobs:
 
       - name: Fetch Issue Info
         id: fetch_issue_info
-        uses: actions/github-script@v4
+        uses: actions/github-script@v7
         with:
           script: |
             const response = await github.issues.get({
