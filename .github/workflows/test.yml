@@ -18,9 +18,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
         with:
-          env: GITHUB_REF = refs/pull/${{ github.event.issue.number }}/head
           ref: refs/pull/${{ github.event.issue.number }}/head
-        
+
+      - name: Fetch Issue Info
+        id: fetch_issue_info
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const response = await github.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            console.log(response.data);
+            console.log(response.data.pull_request.head.ref);
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       # Runs a single command using the runners shell
       - name: output file
         run: cat test.txt
