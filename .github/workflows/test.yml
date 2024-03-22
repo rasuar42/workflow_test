@@ -33,7 +33,7 @@ jobs:
             
 
       - name: Do something with branch name
-        if: steps.extract_branch_name.outputs.branch_name
+        if: ${{ env.env_text != '' }}
         run: |
           echo "Branch Name: $branch_name"
 
