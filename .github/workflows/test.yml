@@ -12,13 +12,15 @@ on:
 jobs:
   build: # This workflow contains a single job called "build"
     # The type of runner that the job will run on
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || (contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, 'run workflow'))
     runs-on: ubuntu-latest
     steps: # Steps represent a sequence of tasks that will be executed as part of the job
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - run: |
           echo A comment on PR $NUMBER
+        env:
+          NUMBER: ${{ github.event.issue.number }}
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
