@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: # Steps represent a sequence of tasks that will be executed as part of the job
       - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v1
+        uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
