@@ -21,7 +21,7 @@ jobs:
           ref: refs/pull/${{ github.event.issue.number }}/head
 
       - name: Add comment to PR
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7.0.1
         if: always()
         with:
           script: |
