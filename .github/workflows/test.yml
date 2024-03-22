@@ -20,6 +20,11 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
 
+      - name: Debug Event Payload
+        run: |
+          echo "Event payload:"
+          echo "${{ toJson(github.event) }}"
+
       - name: Fetch Pull Request Info
         if: github.event.issue.pull_request
         run: |
