@@ -20,18 +20,12 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
 
-      - name: Fetch Issue Info
-        id: fetch_issue_info
-        uses: actions/github-script@v7.0.1
-        with:
-          script: |
-            const response = await github.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number
-            });
-            console.log(response.data);
-            console.log(response.data.pull_request.head.ref);
+      - name: Fetch Pull Request Info
+        if: github.event.issue.pull_request
+        run: |
+          pull_request_url=$(jq -r '.issue.pull_request.url' "$GITHUB_EVENT_PATH")
+          branch=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$pull_request_url" | jq -r '.head.ref')
+          echo "Branch Name: $branch"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
