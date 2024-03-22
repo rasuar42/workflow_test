@@ -15,15 +15,13 @@ jobs:
     if: github.event_name == 'pull_request' || (contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, 'run workflow'))
     runs-on: ubuntu-latest
     steps: # Steps represent a sequence of tasks that will be executed as part of the job
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-   
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
-
+      - name: Checkout Pull Request
+        run: hub pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
