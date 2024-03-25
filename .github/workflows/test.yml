@@ -13,7 +13,7 @@ jobs:
   pr-commented:
     name: PR commented
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
+    if: github.event_name == 'pull_request' || (contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run'))
     steps:
       # Checkout source code
       - name: Checkout
