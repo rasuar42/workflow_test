@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build Gradle
 
 # Controls when the workflow will run
 on:
@@ -12,15 +12,13 @@ on:
 jobs:
   build: # This workflow contains a single job called "build"
     runs-on: ubuntu-latest
-    steps: # Steps represent a sequence of tasks that will be executed as part of the job
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-
+    steps: 
       - name: Checkout Pull Request
         if: github.event_name == 'pull_request'
       - uses: actions/checkout@v4
       - run: chmod +x test.txt
       
-      - name: Checkout Issue Comment
+      - name: Checkout Issue Comment   
         if: github.event_name == 'issue_comment' && contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
       - uses: actions/checkout@v4
         with:
