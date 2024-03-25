@@ -18,6 +18,20 @@ jobs:
       - uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
 
+      - name: re-run workflow
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const response = await octokit.actions.createWorkflowDispatch({
+              owner: 'rasuar42',
+              repo: 'workflow_test',
+              workflow_id: 'test.yml',
+              ref: ${{ steps.comment-branch.outputs.head_ref }},
+            });
+            console.log(response);
+      
+
       - uses: actions/checkout@v3
         if: success()
         with:
