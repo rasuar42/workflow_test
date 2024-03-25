@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
     steps:
-      - uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-
       - id: 'get-branch'
         run: echo ::set-output name=branch::$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')
         env:
