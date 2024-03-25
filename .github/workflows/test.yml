@@ -28,6 +28,9 @@ jobs:
               repo: 'workflow_test',
               workflow_id: 'test.yml',
               ref: ${{ steps.comment-branch.outputs.head_ref }},
+              inputs: {
+                parameter_name: '${{ github.event.inputs.parameter_name }}'
+              }
             });
             console.log(response);
       
