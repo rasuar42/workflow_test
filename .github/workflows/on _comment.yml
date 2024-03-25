@@ -13,20 +13,12 @@ jobs:
       - uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
         
-      - name: Get Branch
-        id: 'get-branch'
-        run: echo ::set-output name=branch::$(gh pr view $PR_NUMBER --repo $REPO --json headRefName --jq '.headRefName')
-        env:
-          REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.issue.number }}
-          GITHUB_TOKEN: ${{ secrets.GH_DEPLOY_REPO_TOKEN }}
-
       - uses: actions/checkout@v4
         if: success()
         with:
-          ref: ${{ steps.get-branch.outputs.branch }}
+          ref: refs/pull/${{ github.event.issue.number }}/head
           # ${{ steps.comment-branch.outputs.head_ref }}
       
-      - run: gh workflow run test.yml -r ${{ steps.get-branch.outputs.branch }}
+      - run: gh workflow run test.yml -r refs/pull/${{ github.event.issue.number }}/head
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
