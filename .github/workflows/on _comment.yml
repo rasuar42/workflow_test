@@ -2,7 +2,7 @@ name: re-run workflow
 
 # Controls when the workflow will run
 on:
-  pull_request_review_comment:
+  issue_comment:
     type: [created]
 
 jobs:
@@ -18,6 +18,6 @@ jobs:
         with:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
       
-      - run: gh workflow run test.yml -r $GITHUB_REF
+      - run: gh workflow run test.yml -r refs/pull/${{ github.event.issue.number }}/head
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
