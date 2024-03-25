@@ -18,16 +18,14 @@ jobs:
       - name: Checkout Pull Request
         if: github.event_name == 'pull_request'
       - uses: actions/checkout@v4
-      - run: | 
-          chmod +x test.txt
+      - run: chmod +x test.txt
       
       - name: Checkout Issue Comment
         if: github.event_name == 'issue_comment' && contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
       - uses: actions/checkout@v4
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
-      - run: | 
-          chmod +x test.txt
+      - run: chmod +x test.txt
           
       # Runs a single command using the runners shell
       - name: Check File
