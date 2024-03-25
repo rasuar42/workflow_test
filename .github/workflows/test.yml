@@ -17,13 +17,13 @@ jobs:
     steps:
       # Checkout source code
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
-      - name: Checkout Pull Request Issue Comments
+      - name: Checkout Issue Comments
         if: github.event_name == 'issue_comment'
-        run: hub pr checkout ${{ github.event.issue.number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
     
       - name: resolve pr refs
         id: refs
