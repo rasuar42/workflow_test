@@ -1,0 +1,16 @@
+name: re-run workflow
+
+# Controls when the workflow will run
+on:
+  issue_comment:
+    type: [created]
+
+jobs:
+  rerun-workfow:
+    runs-on: ubuntu-lates
+    if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
+    steps:
+      - uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+      
+      - run: gh run workflow test.yml -b ${{ steps.comment-branch.outputs.head_ref }}
