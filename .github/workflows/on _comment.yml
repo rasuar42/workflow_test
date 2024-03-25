@@ -12,7 +12,7 @@ jobs:
     steps:
       - id: 'get-branch'
         # run: echo ::set-output name=branch::$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')
-        run: echo {branch}={$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')} >> $GITHUB_OUTPUT
+        run: echo "{branch}={$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')}" >> $GITHUB_OUTPUT
         # run: echo "{name}={value}" >> $GITHUB_OUTPUT
         env:
           REPO: ${{ github.repository }}
