@@ -27,6 +27,8 @@ jobs:
 
       - name: Get Last Check Run
         run: gh workflow run buld.yml -r  refs/pull/${{ github.event.issue.number }}/head
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       
       #- run: |
