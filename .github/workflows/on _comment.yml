@@ -27,14 +27,10 @@ jobs:
 
       - name: Get Last Check Run
         run: |
-          LAST_CHECK_RUN=$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.issue.number }}/check-runs" \
-            | jq '.check_runs[0]')
-
-          echo "Last Check Run: $LAST_CHECK_RUN"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/OWNER/REPO/actions/runs
 
       
       #- run: |
