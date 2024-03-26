@@ -26,7 +26,7 @@ jobs:
           # ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Get Last Check Run
-        run: gh workflow run buld.yml -r  refs/pull/${{ github.event.issue.number }}/head
+        run: gh workflow run build.yml -r  refs/pull/${{ github.event.issue.number }}/head
         env:
           GH_TOKEN: ${{ github.token }}
 
