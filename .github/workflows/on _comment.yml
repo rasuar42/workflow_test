@@ -27,10 +27,9 @@ jobs:
 
       - name: Get Last Check Run
         run: |
-          PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | awk -F'/' '{print $NF}')
           LAST_CHECK_RUN=$(curl -s \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/check-runs" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.issue.number }}/check-runs" \
             | jq '.check_runs[0]')
 
           echo "Last Check Run: $LAST_CHECK_RUN"
