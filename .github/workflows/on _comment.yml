@@ -24,10 +24,18 @@ jobs:
         with:
           ref: ${{ steps.get-branch.outputs.branch }}
           # ${{ steps.comment-branch.outputs.head_ref }}
+
+      - name: Rerun Workflow
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/${{ github.workflow }}/dispatches \
+            -d '{"ref":"${{ steps.get-branch.outputs.branch }}"}'
       
-      - run: |
-          git commit -m "${{ steps.get-branch.outputs.branch }} retrigger checks" --allow-empty
-          git push
+      #- run: |
+      #    git commit -m "${{ steps.get-branch.outputs.branch }} retrigger checks" --allow-empty
+      #    git push
       # gh workflow run test.yml -r ${{ steps.get-branch.outputs.branch }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  env:
+      #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
