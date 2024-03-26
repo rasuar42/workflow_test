@@ -23,6 +23,7 @@ jobs:
         if: success()
         with:
           ref: ${{ steps.get-branch.outputs.branch }}
+          run: git commit -m "${{ steps.get-branch.outputs.branch }} retrigger checks" --allow-empty
           # ${{ steps.comment-branch.outputs.head_ref }}
       
       - run: gh workflow run test.yml -r ${{ steps.get-branch.outputs.branch }}
