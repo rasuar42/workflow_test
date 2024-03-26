@@ -10,16 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run')
     steps:
-      - uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-
-      - uses: actions/checkout@v3
+      - id: 'get-branch'
+        # run: echo ::set-output name=branch::$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')
+        run: echo "branch=$(gh pr view $PR_NO --repo $REPO --json headRefName --jq '.headRefName')" >> "$GITHUB_OUTPUT"
+        # run: echo "{name}={value}" >> $GITHUB_OUTPUT
+        env:
+          REPO: ${{ github.repository }}
+          PR_NO: ${{ github.event.issue.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - uses: actions/checkout@v4
         if: success()
         with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
+          ref: ${{ steps.get-branch.outputs.branch }}
+          # ${{ steps.comment-branch.outputs.head_ref }}
       
-      - run: gh workflow run test.yml -r ${{ steps.comment-branch.outputs.head_ref }}
+      - run: gh workflow run test.yml -r ${{ steps.get-branch.outputs.branch }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-
