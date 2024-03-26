@@ -26,13 +26,7 @@ jobs:
           # ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Get Last Check Run
-        run: |
-          gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/OWNER/REPO/actions/runs
-        env:
-          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run buld.yml -r  refs/pull/${{ github.event.issue.number }}/head
 
       
       #- run: |
