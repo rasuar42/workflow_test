@@ -3,7 +3,6 @@ testing
 testing 
 1
 2
-=======
-ASDF TESTING TESTING 123
-NEW LINE
->>>>>>> 4f13dcafcb163b7796671e8d8a42611e47359aed
+
+
+Testing Pull Request
