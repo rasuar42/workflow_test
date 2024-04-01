@@ -20,7 +20,7 @@ jobs:
         if: github.event_name == 'issue_comment'
         run: |
           gh pr checkout ${{ github.event.issue.number }}
-          echo git branch
+          git branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
