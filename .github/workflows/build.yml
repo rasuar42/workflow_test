@@ -20,7 +20,8 @@ jobs:
         if: github.event_name == 'issue_comment'
         run: |
           gh pr checkout ${{ github.event.issue.number }}
-          git branch
+          RUNID=$(gh api repos/$OWNER/$REPO/commits/$COMMIT_SHA/check-runs | jq -r '.check_runs[] | select(.name == "NAME_OF_YOUR_GITHUB_ACTIONS_WORKFLOW") | .html_url | capture("/runs/(?<number>[0-9]+)/job") | .number' | sed 's/"//g' | head -n 1)
+          echo RUNID
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
