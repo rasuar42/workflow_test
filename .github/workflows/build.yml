@@ -20,7 +20,7 @@ jobs:
         if: github.event_name == 'issue_comment'
         run: |
           gh pr checkout ${{ github.event.issue.number }}
-          echo refs/pull/${{ github.event.issue.number }}/head
+          echo git branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
