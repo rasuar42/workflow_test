@@ -27,7 +27,6 @@ jobs:
 
       - name: rerun
         if: github.event_name == 'issue_comment'
-        run: gh workflow run build.yml --ref refs/pull/${{ github.event.issue.number }}/head
+        run: gh run rerun 8468124148
         env:
-          GH_TOKEN: ${{ github.token }}
-     
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
