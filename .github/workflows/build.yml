@@ -27,7 +27,7 @@ jobs:
 
       - name: rerun
         if: github.event_name == 'issue_comment'
-        run: gh workflow run build.yml --ref refs/pull/${{ github.event.issue.number }}/head
+        run: gh workflow run build.yml --ref $GITHUB_REF
         env:
           GH_TOKEN: ${{ github.token }}
      
