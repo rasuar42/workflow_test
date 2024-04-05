@@ -14,18 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || (contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run'))
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
 
-      - name: Adjust Branch
+      - name: Adjust Checkout
         if: github.event_name == 'issue_comment'
-        run: gh pr checkout ${{ github.event.issue.number }}
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+
+
+      - name: rerun
+        if: github.event_name == 'issue_comment'
+        run: gh workflow run build.yml --ref refs/pull/${{ github.event.issue.number }}/head
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: TESTS
-        run: |
-          echo ${{ steps.get-branch.outputs.branch }}
-          echo ${{ steps.refs.outputs.base_ref }}
-          ls
-          cat test.txt
+          GH_TOKEN: ${{ github.token }}
      
