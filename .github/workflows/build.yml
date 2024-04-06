@@ -14,25 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || (contains(github.event.comment.html_url, '/pull/') && contains(github.event.comment.body, '/run'))
     steps:
-      - name: Github API Request
-        id: request
-        if: github.event_name == 'issue_comment'
-        uses: octokit/request-action@v2.0.0
-        with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+      
       - name: Checkout
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v4
 
-      - name: Checkout PR Branch
+      - name: Github API Request
+        id: request
         if: github.event_name == 'issue_comment'
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ fromJson(steps.request.outputs.data).head.repo.full_name }}
-          ref: ${{ steps.pr_data.outputs.branch }}
+        run: |
+            gh issue close ${{ github.event.issue.number }}
+            gh issue reopen ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
         
