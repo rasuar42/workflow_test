@@ -16,14 +16,19 @@ jobs:
     steps:
       
       - name: Checkout
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@v4
-
-      - name: Github API Request
-        id: request
+        
+      - name: Adjust Checkout
         if: github.event_name == 'issue_comment'
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+
+      - name: asdf
         run: |
-            gh issue close ${{ github.event.issue.number }}
-            gh issue reopen ${{ github.event.issue.number }}
+            git commit --m "RETRIGGER CHECKS" --allow-empty
+            git push TAT-456
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
