@@ -16,7 +16,6 @@ jobs:
     steps:
       
       - name: Checkout
-        if: github.event_name == 'pull_request'
         uses: actions/checkout@v4
 
       - name: Github API Request
